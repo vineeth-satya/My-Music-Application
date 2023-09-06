@@ -1,0 +1,61 @@
+body{
+    background-image: url("../../public/loginimage.jpg");
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    background-size: cover;
+}
+.bg{
+    margin-right: 10%;
+    margin-top: 5%;
+}
+.bb{
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(0, 0, 0);
+    height: max-content;
+    width: 350px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 30px;
+    margin-top: 130px;
+    box-shadow: 0px 0px 10px black;
+}
+#heading{
+    color: rgb(255, 255, 255);
+}
+#heading:hover{
+    color: rgb(255,209,61);
+}
+#user{
+    border-radius: 5px;
+}
+#user:focus{
+    background-color: rgb(255,209,61);
+}
+#pass{
+    border-radius: 5px;
+}
+#pass:focus{
+    background-color: rgb(255,209,61);
+}
+label{
+    color: rgb(255, 255, 255);
+}
+#button{
+    border-radius: 5px;
+    padding: 5px;
+    width: 80px;
+    background-color: rgb(255,209,61);
+}
+#button:hover{
+    background-color: darkcyan;
+    color: aliceblue;
+    box-shadow: 0px 0px 10px gray;
+}
+#link{
+    color: rgb(255, 255, 255);
+}
+#link:hover{
+    color: rgb(255,209,61);
+}

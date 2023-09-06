@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+        <link rel="stylesheet" type="text/css" href="/css/output.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Dancing+Script&family=Edu+SA+Beginner&family=Great+Vibes&family=Kaushan+Script&family=Lumanosimo&display=swap" rel="stylesheet">
+    </head>
+    <style>
+        body{
+            background-color: black;
+        }
+        .navbar{
+            position: sticky;
+            top: 0;
+            z-index: 2;
+            background-color: black;
+            color: aliceblue;
+        }
+        .navbuttons{
+            color: rgb(203, 203, 203);
+            border-radius: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+        }
+        .navbuttons:hover{
+            background-color: #a99908;
+            color: #000000;
+        }
+        .searchbar{
+            margin-left: 10px;
+        }
+        .logo{
+            font-family: 'Great Vibes', cursive;
+            font-size: larger;
+            font-weight:500;
+            margin-top: 10px;
+        }
+        .bar{
+            width: 500px;
+        }
+        .homepage{
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            color: azure;
+        }
+        .homepage::before{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('../../public/c-d-x-PDX_a_82obo-unsplash.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-attachment: fixed;
+            opacity: 0.7;
+            z-index: -1;
+        }
+        .mainmatter{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            margin-left: 250px;
+            opacity: 0;
+            animation: fadeOut 3s ease-in-out forwards;
+        }
+        
+        @keyframes fadeOut {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .button {
+            background-color: #000000;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+            border-radius: 10px;
+        }
+
+        .button:hover {
+            background-color: #2980b9;
+        }
+        #matter{
+            text-align: center;
+            width: 300px;
+            font-size: 400%;
+            animation: textAnimation 3s ease-in-out infinite;
+            animation-delay: 3s;
+        }
+        @keyframes textAnimation {
+            0% {
+                transform: scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: scale(0.8);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+        .info{
+            height: 400px;
+            background-color: aliceblue;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            grid-template-areas: ". .";
+        }
+        .infom{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: xx-large;
+        }
+        .infomm{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 50px;
+            align-items: center;
+            font-size: x-large;
+        }
+        .infobutton{
+            background-color: #a99908;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: fit-content;
+            border-radius: 10px;
+            font-size: small;
+        }
+        .infobutton:hover {
+            background-color: #000000;
+        }
+        .details{
+            background-image: url('../../public/yellowbg.jpg');
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.7;
+            padding: 220px;
+        }
+        .detailsbox{
+            height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+        .dethead{
+            font-size: xx-large;
+        }
+        .detboxes{
+            display: flex;
+            gap: 30px;
+        }
+        .detbox{
+            width: 400px;
+            height: auto;
+        }
+        .detimage{
+            background-color: #000000;
+            height: 48px;
+            width: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+        }
+        .detboxheads{
+            font-size: larger;
+        }
+        .explain{
+            height: 550px;
+            display: flex;
+            flex-direction: column;
+            background-color: aliceblue;
+            justify-content: space-around;
+            gap: 10px;
+        }
+        .expmat{
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            grid-template-areas: ". .";
+        }
+        .expim{
+            display: flex;
+            justify-content: space-around;
+        }
+        .expinfo{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: larger;
+        }
+        .expim1{
+            background-image: url('../../public/ad.jpg');
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .expim2{
+            background-image: url('../../public/quality.jpg');
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .expim3{
+            background-image: url('../../public/online.jpg');
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .expim4{
+            background-image: url('../../public/download.jpg');
+            height: 200px;
+            width: 200px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .footer-heading {
+            font-weight: bold;
+            margin-bottom: 10px;
+            width: max-content;
+        }
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-list li {
+            margin-bottom: 5px;
+        }
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .social-icons {
+            display: flex;
+            align-items: center;
+        }
+        .social-icons img {
+            width: 25px;
+            margin: 0 5px;
+        }
+        .footer1 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 80% 150% ;
+            grid-auto-flow: row;
+            justify-content: center;
+        }
+    </style>
+    <body class="">
+        <nav class="navbar">
+            <div class="flex justify-between ">
+                <div class="flex h-16 items-center justify-center">
+                    <div class="logo flex items-center"><img src="../../public/music souls logo.png" alt="" height="50px" width="50px"><h2>Music Souls</h2></div>
+                </div>
+                <div class="flex items-center justify-around bar">
+                    <a href="#home" class="navbuttons">Home</a>
+                    <a href="#works" class="navbuttons">How it Works</a>
+                    <a href="#about" class="navbuttons">About</a>
+                </div>
+                <div class="flex items-center pr-2">
+                    <div class="">
+                        <div class="flex space-x-4">
+                            <a href="/signup" class="navbuttons">Sign-Up</a>
+                            <a href="/login" class="navbuttons">Login</a>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <div>
+                            <button type="button" class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-expanded="false" aria-haspopup="true">
+                                <img class="h-8 w-8 rounded-full" src="https://img.freepik.com/premium-vector/logo-music-equalizer-dj-spectrum-colorful_174590-2.jpg?w=2000" alt=""/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="homepage flex flex-col justify-center" id="home">
+            <div class="mainmatter">
+                <h2 id="matter"><span style="color: black;">Music</span> for everyone</h2>
+                <button class="button"><a href="/login">Listen Now</a></button>
+            </div>
+        </div>
+        <div class="info">
+            <div class="infom">
+                <h1>Get Unlimited Music without any breaks</h1>
+            </div>
+            <div class="infomm">
+                <p>Listen to unlimited music without any breaks. You can get unlimited access and become Ad free by simply clicking the link below and creating an account.</p>
+                <button class="infobutton">Create Account</button>
+            </div>
+        </div>
+        <div class="details" id="works">
+            <div class="detailsbox">
+                <h1 class="dethead">How it Works</h1>
+                <div class="detboxes">
+                    <div class="detbox">
+                        <div class="detimage">
+                            <img src="../../public/brain.png.webp" alt="">
+                        </div>
+                        <div>
+                            <h1 class="detboxheads">Create Account</h1>
+                            <p>Create a account of your own by giving a username, mobile number and password. After creating an account, Login to your account to access your data.</p>
+                        </div>
+                    </div>
+                    <div class="detbox">
+                        <div class="detimage">
+                            <img src="../../public/pointer.png.webp" alt="">
+                        </div>
+                        <div>
+                            <h1 class="detboxheads">Listen to Music</h1>
+                            <p>Browse over unlimited songs and start playing the music which ever you want by simply clicking the play button below the song.</p>
+                        </div>
+                    </div>
+                    <div class="detbox">
+                        <div class="detimage">
+                            <img src="../../public/smartphone.png.webp" alt="">
+                        </div>
+                        <div>
+                            <h1 class="detboxheads">Add to Playlists</h1>
+                            <p>Create your own Playlists and add unlimited songs to your playlists that you want to listen. Also add music to Liked Songs list that you love.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="explain" id="about">
+            <div class="expmat">
+                <div class="infom">
+                    <h1>Why to Choose us..</h1>
+                </div>
+                <div class="infomm">
+                    <p>We provide unlimited access to music and songs for free and also we provide more features to make it more reliable and attractive.</p>
+                </div>
+            </div>
+            <div class="expim">
+                <div class="expinfo">
+                    <div class="expim1"></div>
+                    <p>No Ad Interruptions</p>
+                </div>
+                <div class="expinfo">
+                    <div class="expim2"></div>
+                    <p>High Quality</p>
+                </div>
+                <div class="expinfo">
+                    <div class="expim3"></div>
+                    <p>Access Anywhere</p>
+                </div>
+                <div class="expinfo">
+                    <div class="expim4"></div>
+                    <p>Unlimited Listening</p>
+                </div>
+            </div>
+        </div>
+        <footer class="footer">
+            <div class="footer1">
+                
+                    <div class="footer-column">
+                        <div class="footer-heading"><u>Company</u></div>
+                        <ul class="footer-list">
+                            <li>About</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <div class="footer-heading"><u>Communities</u></div>
+                        <ul class="footer-list">
+                            <li>Developers</li>
+                            <li>Advertising</li>
+                            <li>Investors</li>
+                            <li>Vendors</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <div class="footer-heading"><u>Useful Links</u></div>
+                        <ul class="footer-list">
+                            <li>Support</li>
+                            <li>Subscription</li>
+                            <li>Mobile App</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            <div class="social-icons-container">
+                <div class="social-icons">
+                    <img src="https://cdn-icons-png.flaticon.com/128/174/174855.png" alt="Instagram">
+                    <img src="https://cdn-icons-png.flaticon.com/128/733/733547.png" alt="Facebook">
+                    <img src="https://cdn-icons-png.flaticon.com/128/3256/3256013.png" alt="Twitter">
+                </div>
+            </div>
+        </footer>
+    </body>
+</html>

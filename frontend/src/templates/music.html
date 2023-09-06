@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+        <link rel="stylesheet" href="/css/output.css"/>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Caveat&family=Cinzel&family=Cormorant+Garamond:wght@300&family=Dancing+Script&family=Edu+SA+Beginner&family=Great+Vibes&family=Kaushan+Script&family=Lumanosimo&display=swap" rel="stylesheet">
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-storage.js"></script>
+    </head>
+    <style>
+        .song{
+            position: relative;
+            width: 100px;
+        }
+        #play{
+            display: none;
+        }
+        .song:hover #play{
+            display: block;
+        }
+        .container {
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            margin-left: 35px;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 14px 20px;
+            grid-auto-flow: row;
+            grid-template-areas: 
+            ". . . . ."
+            ". . . . .";
+            margin-top: 20px;
+        }
+
+        .artists{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .artist{
+            box-shadow: 0px 0px 5px 5px #a99908;
+        }
+        .artist1{
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSU2DXZ_zada6MZAa820GQhAhIrJDVmFx1jJMeHdNFg-2Gm2Jef');
+            background-position: center center;
+        }
+        .artists2{
+            background: url('https://encrypted-tbn3.gstatic.com/licensed-image?q=tbn:ANd9GcSdZyLToXrv9aSQscK4puG-eAVvlyzwFa6i9oTesn_pGcyC_H1c2TvwUFcadjsvzg4wotMkic6h86DEGkQ');
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+        .artist3{
+            background: url('https://akm-img-a-in.tosshub.com/indiatoday/anirudh---exlarge_121917022608.jpg?VersionId=6S3c11U_KaSLS3L7kcFsVrVx1d5BO_Wi');
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+        }
+        .artist4{
+            background: url('https://i.scdn.co/image/ab6761610000e5eb439ae2d0bb4ac04b74af8421');
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center center;
+        }
+        .artist5{
+            background: url('https://upload.wikimedia.org/wikipedia/commons/e/ee/Devi_sri_prasad.jpg');
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center top;
+        }
+        .navbar{
+            position: sticky;
+            top: 0;
+            margin-left: 208px;
+            z-index: 2;
+            background-color: black;
+            color: aliceblue;
+        }
+        .navbuttons{
+            color: gray;
+            border-radius: 6px;
+            padding-left: 12px;
+            padding-right: 12px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+        }
+        .navbuttons:hover{
+            background-color: #a99908;
+            color: #000000;
+        }
+        .sidebar{
+            background-color: black;
+            top: 0;
+            color: aliceblue;
+        }
+        .container2 {
+            margin-top: 20px;
+            display: grid;
+            justify-content: center;
+            align-items: center;
+            margin-left: 35px;
+            margin-bottom: 50px;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: 1fr;
+            gap: 14px 20px;
+            grid-auto-flow: row;
+            grid-template-areas: 
+            ". . . . ."
+        }
+        .musicbarmain {
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            z-index: 5; 
+            position: fixed;
+            gap: 2%;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background-color: #a99908;
+        }
+
+        .musicbarmain i {
+            font-size: 24px;
+            margin-right: 15px;
+            cursor: pointer;
+            margin-right: 0;
+        }
+
+        .volume-slider {
+            display: flex;
+            align-items: center;
+        }
+
+        .volume-slider input[type="range"] {
+            margin: 0 10px;
+            width: 100px;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .controlbuttons{
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .progress-bar input[type="range"] {
+            width: 110px;
+            margin: 0 10px;
+        }
+        .home{
+            margin-top: 10px;
+        }
+        .controls{
+            background-color: #000000;
+        }
+        .select{
+            background-color: #a99908;
+            border: outset;
+            border-color: #000000;
+            border-radius: 10px;
+            color: #000000;
+        }
+        .navbar-image{
+            height: 75px;
+            width: 75px;
+        }
+        .sname{
+            display: flex;
+            align-items: end;
+        }
+        .spbsongs{
+            margin-top: 0;
+        }
+        .song img{
+            height: 100px;
+            width: 100px;
+        }
+        .song{
+            width: 175px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            border: inset;
+            border-color: #a99908;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+        .song:hover {
+            cursor: pointer;
+            background-color: #a99908;
+            border-color: #000000;
+            box-shadow: 0px 0px 15px #a99908d4;
+        }
+        .subhead{
+            font-family: 'Cinzel', cursive;
+            font-size: 20px;
+            font-weight: 800;
+        }
+        .head{
+            font-family: 'Cinzel', cursive;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .song p{
+            font-family: 'Caveat', cursive;
+            font-size: large;
+        }
+        label{
+            font-family: 'Cormorant Garamond', cursive;
+            font-size: larger;
+            font-weight: bolder;
+        }
+        option{
+            font-family: 'Caveat', cursive;
+            font-size: large;
+        }
+        .artists p{
+            font-family: 'Cormorant Garamond', cursive;
+            font-size: larger;
+            font-weight: bolder;
+        }
+        .artistbox:hover{
+            cursor: pointer;
+        }
+        .logo{
+            font-family: 'Great Vibes', cursive;
+            font-size: larger;
+            font-weight:500;
+            margin-top: 10px;
+        }
+        .lalbum{
+            padding: 10px;
+            border-radius: 5px;
+            background-color: rgba(111, 111, 111, 0.416);
+        }
+        .lalbum:hover{
+            background-color: rgba(169, 153, 8, 0.9);
+        }
+        .lalbum:hover .select{
+            background-color: #000000;
+            color: floralwhite;
+            cursor: pointer;
+        }
+        
+        .button{
+            background-color: rgba(139, 139, 139, 0.3);
+            font-family: 'Edu SA Beginner', cursive;
+            font-weight: bold;
+            font-size: large;
+        }
+        .button:hover{
+            background-color: #a99908;
+            color: #000000;
+            box-shadow: 0px 0px 10px #a99908;
+            cursor: pointer;
+        }
+        .playname{
+            font-family: 'Caveat', cursive;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        li{
+            font-family: 'Caveat', cursive;
+            font-size: large;
+        }
+        .footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        .footer-heading {
+            font-weight: bold;
+            margin-bottom: 10px;
+            width: max-content;
+        }
+        .footer-column {
+            display: flex;
+            flex-direction: column;
+        }
+        .footer-list {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .footer-list li {
+            margin-bottom: 5px;
+        }
+        .social-icons-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .social-icons {
+            display: flex;
+            align-items: center;
+        }
+        .social-icons img {
+            width: 25px;
+            margin: 0 5px;
+        }
+        .footer1 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 80% 150% ;
+            grid-auto-flow: row;
+            justify-content: center;
+        }
+        .headlan{
+            margin-top: 20px;
+        }
+        .artistsmain{
+            margin-top: 80px;
+        }
+        #homepage{
+            background: linear-gradient(90deg, rgba(17,17,17,0.8) 0%, rgba(1,1,1,1) 20%);
+            border-left: outset;
+            border-color: #a99908;
+            border-top-left-radius: 20px;
+            color: azure;
+            z-index: 0;
+        }
+        body{
+            background-color: black;
+        }
+        .lalbum img {
+            height: 100px;
+            width: auto;
+        }
+        .searchbar{
+            margin-left: 10px;
+        }
+        .search{
+            border-top-right-radius: 24px;
+            border-bottom-right-radius: 24px;
+            text-align: center;
+        }
+        .image {
+            background-image: url('../../public/no bg.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-top-left-radius: 10px;
+            background-attachment: fixed;
+            margin-left: 0;
+            z-index: 1;
+            height: 60vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .matter {
+            position: absolute;
+            top: 55%;
+            right: 53%;
+            transform: translate(50%, -50%);
+            font-size: 6vw;
+            text-align: right;
+            z-index: -1;
+        }
+
+
+        .likesong{
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .likesong:hover{
+            background-color: #a99908;
+            box-shadow: 0px 0px 10px #a99908;
+            color: #000000;
+            border-radius: 5px;
+        }
+
+        .div{
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .matter {
+                font-size: 6vw; 
+                top: 50%;
+                right: 40%;
+            }
+            .sidebar{
+                width: auto;
+            }
+            .image{
+                height: 40vh;
+                background-image: url('../../public/no bg.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            }
+        }
+        @media (max-width: 640px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+            .searchbar {
+                flex-direction: column;
+                align-items: center;
+            }
+            .search {
+                margin-top: 10px;
+            }
+            .navbuttons {
+                display: block;
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
+
+
+        @media (max-width: 768px) {
+            .container, .container2 {
+                margin-left: 15px;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .navbar {
+                margin-left: 0;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .searchbar {
+                margin-left: 0;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
+            .navbuttons {
+                display: block;
+                margin-top: 10px;
+                text-align: center;
+            }
+
+            .image {
+                height: 40vh;
+            }
+
+        }
+
+        @media (max-width: 640px) {
+            .navbar {
+                flex-direction: column;
+                align-items: center;
+                padding: 10px;
+            }
+
+            .searchbar {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .search {
+                margin-top: 10px;
+            }
+
+            .navbuttons {
+                display: block;
+                margin-top: 10px;
+                text-align: center;
+            }
+            .container, .container2 {
+                margin-left: 10px;
+                grid-template-columns: 1fr;
+            }
+
+            .song {
+                width: 100%;
+            }
+
+        }
+    </style>
+    <body class="">
+        <nav class="navbar">
+            <div class="flex justify-between ">
+                <div class="flex h-16 items-center justify-center">
+                    <div class="flex bg-white rounded-3xl searchbar">
+                        <span class="material-symbols-outlined text-black">search</span>
+                        <input type="text" placeholder="Search Music" class="search text-black">
+                    </div>
+                </div>
+                <div class="flex items-center pr-2">
+                    <div class="">
+                        <div class="flex space-x-4">
+                            <a href="#" id="homeLink" class="navbuttons">Home</a>
+                            <a href="#footer" class="navbuttons">About</a>
+                            <a href="/request" class="navbuttons">Request a Song</a>
+                            <a href="/" class="navbuttons">LogOut</a>
+                        </div>
+                    </div>
+                    <div class="ml-3">
+                        <div>
+                            <button type="button" class="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" aria-expanded="false" aria-haspopup="true">
+                                <img class="h-8 w-8 rounded-full" src="https://img.freepik.com/premium-vector/logo-music-equalizer-dj-spectrum-colorful_174590-2.jpg?w=2000" alt=""/>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        <div class="flex" id="home">
+            <div class="sidebar w-52 flex flex-col items-center gap-5 fixed min-h-screen">
+                <div class="logo flex items-center"><img src="../../public//music souls logo.png" alt="" height="50px" width="50px"><h2>Music Souls</h2></div>
+                <div id="greeting"></div>
+                <div class=" flex justify-center p-3 rounded-xl w-36 button liked-songs-trigger"><span class="material-symbols-outlined">favorite</span>&nbsp;&nbsp;Liked Songs</div>
+                <div id="likedSongsList">
+                </div>
+            </div>
+            <div id="homepage" class=" min-h-screen ml-52 text-black" style="width: 90%;">
+                <div class="image min-h-screen">
+                    <div class="matter">
+                        <h2><span style="color: #a99908;">Music</span> can <br> Heal anything</h2>
+                    </div>
+                </div>
+                <div class="flex justify-center head headlan" id="lan"><h2>Languages</h2></div>
+                    <div class="main flex justify-around div">
+                        <div class="lalbum flex flex-col items-center justify-center gap-5 mt-3">
+                                <img src="https://www.mixindia.com/wp-content/uploads/2022/02/Radhe-Shyam-Telugu-Movie-Poster-1-scaled.jpg" alt="telugu" class="rounded-xl">
+                            <div class="flex flex-col">
+                                <label for="Telugu songs" class="flex justify-center">Telugu</label>
+                                <select name="Telugu songs" id="telugu-songs" onchange="songdisplay('telugu')" class="select">
+                                    <option value="select">Select</option>
+                                    <option value="top10">Weekly Top 10</option>
+                                    <option value="melodies">Melodies</option>
+                                    <option value="old">Old Songs</option>
+                                    <option value="mass">Mass Songs</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="lalbum flex flex-col items-center justify-between gap-5 mt-3">
+                            <img src="https://www.tallengestore.com/cdn/shop/products/Padmaavat-DeepikaPadukone-BollywoodHindiMoviePosters_3915fe33-0053-43ba-a27e-76e6f1879b67.jpg?v=1625220948" alt="telugu" class="rounded-xl">
+                            <div class="flex flex-col">
+                                <label for="Hindi songs" class="flex justify-center">Hindi</label>
+                                <select name="Hindi songs" id="hindi-songs" onchange="songdisplay('hindi')" class="select">
+                                    <option value="select">Select</option>
+                                    <option value="top10">Weekly Top 10</option>
+                                    <option value="melodies">Melodies</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="lalbum flex flex-col items-center justify-between gap-5 mt-3">
+                            <img src="https://pbs.twimg.com/media/ENHqNP3U0AMX4Di.jpg:large" alt="telugu" class="rounded-xl">
+                            <div class="flex flex-col">
+                                <label for="Tamil songs" class="flex justify-center">Tamil</label>
+                                <select name="Tamil songs" id="tamil-songs" onchange="songdisplay('tamil')" class="select">
+                                    <option value="select">Select</option>
+                                    <option value="top10">Weekly Top 10</option>
+                                    <option value="melodies">Melodies</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="lalbum flex flex-col items-center justify-between gap-5 mt-3">
+                            <img src="https://img1.hotstarext.com/image/upload/f_auto,t_web_vl_2_5x/sources/r1/cms/prod/5071/635071-v" alt="telugu" class="rounded-xl">
+                            <div class="flex flex-col">
+                                <label for="Malayalam songs" class="flex justify-center">Malayalam</label>
+                                <select name="Malayalam songs" id="malayalam-songs" onchange="songdisplay('malayalam')" class="select">
+                                    <option value="select">Select</option>
+                                    <option value="top10">Weekly Top 10</option>
+                                    <option value="melodies">Melodies</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="lalbum flex flex-col items-center justify-between gap-5 mt-3">
+                            <img src="https://upload.wikimedia.org/wikipedia/en/7/73/Fifty_Shades_of_Grey_poster.jpg" alt="telugu" class="rounded-xl">
+                            <div class="flex flex-col">
+                                <label for="English songs" class="flex justify-center">English</label>
+                                <select name="English songs" id="english-songs" onchange="songdisplay('english')" class="select">
+                                    <option value="select">Select</option>
+                                    <option value="top10">Weekly Top 10</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="telugu-top10" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Tollywood Top-10</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/623/Jersey-Telugu-2019-20190427102305-500x500.jpg', 'Adhento Gaani');">
+                                <img src="https://c.saavncdn.com/623/Jersey-Telugu-2019-20190427102305-500x500.jpg">
+                                <p>Adhento Gaani</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://movieassetsdigital.sgp1.cdn.digitaloceanspaces.com/original/5265ba336bfb3c8ca8278a892784850e9b210649', 'Life of Ram');">
+                                <img src="https://movieassetsdigital.sgp1.cdn.digitaloceanspaces.com/original/5265ba336bfb3c8ca8278a892784850e9b210649">
+                                <p>Life of Ram</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_pyL4su7qioarNmsJAt9fJMILT5pKy0vzkwkBqdECwzOn-f0fnyAiwOFcC5PyDGoxqCqiqK230k2r4HPnsxUKvkcKX2JyPGeQM86tMJUHY_GDsgLgFCfO__QpbbP8FjChWm0dYfGqSXLghQzxGY9znutJV7ONBa_rh4eS04zzJ-wMYJUl3vdK2g3AOg/s600/Kushi-Telugu-Movie-Box-Office-Hit-or-Flop.jpg', 'Aradhya');">
+                                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg_pyL4su7qioarNmsJAt9fJMILT5pKy0vzkwkBqdECwzOn-f0fnyAiwOFcC5PyDGoxqCqiqK230k2r4HPnsxUKvkcKX2JyPGeQM86tMJUHY_GDsgLgFCfO__QpbbP8FjChWm0dYfGqSXLghQzxGY9znutJV7ONBa_rh4eS04zzJ-wMYJUl3vdK2g3AOg/s600/Kushi-Telugu-Movie-Box-Office-Hit-or-Flop.jpg">
+                                <p>Aradhya</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://pbs.twimg.com/media/FZiMXMFaAAAIoJF.png', 'Inthandham');">
+                                <img src="https://pbs.twimg.com/media/FZiMXMFaAAAIoJF.png">
+                                <p>Inthandham</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://assets.gadgets360cdn.com/pricee/assets/product/202205/Major-Poster_1651742450.jpg', 'Urike Urike');">
+                                <img src="https://assets.gadgets360cdn.com/pricee/assets/product/202205/Major-Poster_1651742450.jpg">
+                                <p>Urike Urike</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273458ef198aecb59b32c659db8', 'Telisiney Na Nuvvey');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273458ef198aecb59b32c659db8">
+                                <p>Telisiney Na Nuvvey</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://cdn.123telugu.com/content/wp-content/uploads/2022/11/Orange.jpg', 'Rooba Rooba');">
+                                <img src="https://cdn.123telugu.com/content/wp-content/uploads/2022/11/Orange.jpg">
+                                <p>Rooba Rooba</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://cdn.tollywood.net/wp-content/uploads/2018/07/RX-100-5-days-Collections.jpg', 'Pilla Raa');">
+                                <img src="https://cdn.tollywood.net/wp-content/uploads/2018/07/RX-100-5-days-Collections.jpg">
+                                <p>Pilla Raa</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/ZaP37OR3Dy/aP37vGVVKD/size_l.jpg', 'Chiru Chiru');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/ZaP37OR3Dy/aP37vGVVKD/size_l.jpg">
+                                <p>Chiru Chiru</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/385/Agnyaathavaasi-Telugu-2017-20180102061403-500x500.jpg', 'Baitikochi Chusthe');">
+                                <img src="https://c.saavncdn.com/385/Agnyaathavaasi-Telugu-2017-20180102061403-500x500.jpg">
+                                <p>Baitikochi Chusthe</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="telugu-melodies" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Tollywood Melodies</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/ZaP37OR3Dy/aP37vGVVKD/size_l.jpg', 'Nee Yadalo Naaku');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/ZaP37OR3Dy/aP37vGVVKD/size_l.jpg" height="100px" width="100px">
+                                <p>Nee Yadalo Naaku</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://cdn.tollywood.net/wp-content/uploads/2019/09/Nani-Gang-Leader.jpg', 'Ninnu Chuse Anandamlo');">
+                                <img src="https://cdn.tollywood.net/wp-content/uploads/2019/09/Nani-Gang-Leader.jpg" height="100px" width="100px">
+                                <p>Ninnu Chuse Anandamlo</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b27333b51bfcd616b70cf17ec14f', 'Enduko Emo');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b27333b51bfcd616b70cf17ec14f" height="100px" width="100px">
+                                <p>Endhuko Emo</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.filmibeat.com/img/190x100x237/popcorn/movie_posters/sakhi-5239.jpg', 'Kailove Chedugudu');">
+                                <img src="https://www.filmibeat.com/img/190x100x237/popcorn/movie_posters/sakhi-5239.jpg" height="100px" width="100px">
+                                <p>Kailove Chedugudu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.pinimg.com/736x/35/80/d7/3580d755d82dd63131fce48a97a3c780.jpg', 'Arerey Manasa');">
+                                <img src="https://i.pinimg.com/736x/35/80/d7/3580d755d82dd63131fce48a97a3c780.jpg" height="100px" width="100px">
+                                <p>Arerey Manasa</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/216/Darling-Telugu-2010-20190914120044-500x500.jpg', 'Neeve');">
+                                <img src="https://c.saavncdn.com/216/Darling-Telugu-2010-20190914120044-500x500.jpg" height="100px" width="100px">
+                                <p>Neeve</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://m.behindwoods.com/tamil-movies/cinema-articles-photos/images/thoughts-on-premam-telugu-remake-photos-pictures-stills.jpg', 'Evare');">
+                                <img src="https://m.behindwoods.com/tamil-movies/cinema-articles-photos/images/thoughts-on-premam-telugu-remake-photos-pictures-stills.jpg" height="100px" width="100px">
+                                <p>Evare</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/sakhi-et00301005-18-11-2020-05-15-44.jpg', 'Pachchadanamey');">
+                                <img src="https://assets-in.bmscdn.com/iedb/movies/images/mobile/thumbnail/xlarge/sakhi-et00301005-18-11-2020-05-15-44.jpg" height="100px" width="100px">
+                                <p>Pachchadanamey</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://themayabazaar.com/wp-content/uploads/2022/12/Pawan-Kalyan-Kushi-Movie-HD-Image-1.jpg', 'Cheliya');">
+                                <img src="https://themayabazaar.com/wp-content/uploads/2022/12/Pawan-Kalyan-Kushi-Movie-HD-Image-1.jpg" height="100px" width="100px">
+                                <p>Cheliya</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://cineabode.files.wordpress.com/2017/04/wp-1491589868091.jpg', 'Hamsaro');">
+                                <img src="https://cineabode.files.wordpress.com/2017/04/wp-1491589868091.jpg" height="100px" width="100px">
+                                <p>Hamsaro</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="telugu-old" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Tollywood Old Hits</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/Rowdy_Alluding_DVD_Cover.jpeg/220px-Rowdy_Alluding_DVD_Cover.jpeg', 'Chiluka Kshemama');">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/4/4f/Rowdy_Alluding_DVD_Cover.jpeg/220px-Rowdy_Alluding_DVD_Cover.jpeg" height="100px" width="100px">
+                                <p>Chiluka Kshemama</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.naasongs.co/wp-content/uploads/2014/03/Premakatha-19991.jpg', 'Devudu Karunistadani');">
+                                <img src="https://www.naasongs.co/wp-content/uploads/2014/03/Premakatha-19991.jpg" height="100px" width="100px">
+                                <p>Devudu Karunistadani</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/mA9yWUCeLFc/maxresdefault.jpg', 'Urvashi Urvashi');">
+                                <img src="https://i.ytimg.com/vi/mA9yWUCeLFc/maxresdefault.jpg" height="100px" width="100px">
+                                <p>Urvashi Urvashi</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://image-resizer-cloud-api.akamaized.net/image/C165D254-3E49-4D36-B400-6FBF372395A8/0-16x9.jpg?width=1920', 'Priya Priyathama');">
+                                <img src="https://image-resizer-cloud-api.akamaized.net/image/C165D254-3E49-4D36-B400-6FBF372395A8/0-16x9.jpg?width=1920" height="100px" width="100px">
+                                <p>Priya Priyathama</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-000113769127-26vv2r-t500x500.jpg', 'Vurikey Chilaka');">
+                                <img src="https://i1.sndcdn.com/artworks-000113769127-26vv2r-t500x500.jpg" height="100px" width="100px">
+                                <p>Vurikey Chilaka</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-000048278624-idv93k-t500x500.jpg', 'NewYork Nagaram');">
+                                <img src="https://i1.sndcdn.com/artworks-000048278624-idv93k-t500x500.jpg" height="100px" width="100px">
+                                <p>NewYork Nagaram</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c-cl.cdn.smule.com/smule-gg-s-sf-bck1/arr/32/4a/3144ae49-b2b4-4911-9f04-d202dae322e0_1024.jpg', 'Vennelave Vennelave');">
+                                <img src="https://c-cl.cdn.smule.com/smule-gg-s-sf-bck1/arr/32/4a/3144ae49-b2b4-4911-9f04-d202dae322e0_1024.jpg" height="100px" width="100px">
+                                <p>Vennelave Vennelave</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/images/albums/81/280681/crop_480x480_280681.jpg', 'Andagaada');">
+                                <img src="https://a10.gaanacdn.com/images/albums/81/280681/crop_480x480_280681.jpg" height="100px" width="100px">
+                                <p>Andagaada</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/PyHo_vUP76o/maxresdefault.jpg', 'Jabilli Kosam');">
+                                <img src="https://i.ytimg.com/vi/PyHo_vUP76o/maxresdefault.jpg" height="100px" width="100px">
+                                <p>Jabilli Kosam</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c-cl.cdn.smule.com/rs-s66/arr/8e/12/9330eb1b-30a6-4159-92b2-1db403f6d639.jpg', 'Sasivadaney');">
+                                <img src="https://c-cl.cdn.smule.com/rs-s66/arr/8e/12/9330eb1b-30a6-4159-92b2-1db403f6d639.jpg" height="100px" width="100px">
+                                <p>Sasivadaney</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>                
+                    </div>
+                    <div id="telugu-mass" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Tollywood Mass Songs</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/93/5c/20/935c2080-10a3-d258-7fcc-c7d24b10ba3b/cover.jpg/1200x1200bf-60.jpg', 'La La Bheemla');">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/93/5c/20/935c2080-10a3-d258-7fcc-c7d24b10ba3b/cover.jpg/1200x1200bf-60.jpg" height="100px" width="100px">
+                                <p>La La Bheemla</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/f1/d6/17/f1d6172f-f61c-8924-0c88-106d6e203e08/196589812377.jpg/1200x1200bf-60.jpg', 'Boss Party');">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Music123/v4/f1/d6/17/f1d6172f-f61c-8924-0c88-106d6e203e08/196589812377.jpg/1200x1200bf-60.jpg" height="100px" width="100px">
+                                <p>Boss Party</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/572/Palasa-1978-Telugu-2020-20200320104145-500x500.jpg', 'Nakkilesu Golusu');">
+                                <img src="https://c.saavncdn.com/572/Palasa-1978-Telugu-2020-20200320104145-500x500.jpg" height="100px" width="100px">
+                                <p>Nakkilesu Golusu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://m.media-amazon.com/images/M/MV5BODUwNDNjYzctODUxNy00ZTA2LWIyYTEtMDc5Y2E5ZjBmNTMzXkEyXkFqcGdeQXVyODE5NzE3OTE@.V1_FMjpg_UX1000.jpg', 'Naatu Naatu');">
+                                <img src="https://m.media-amazon.com/images/M/MV5BODUwNDNjYzctODUxNy00ZTA2LWIyYTEtMDc5Y2E5ZjBmNTMzXkEyXkFqcGdeQXVyODE5NzE3OTE@.V1_FMjpg_UX1000.jpg" height="100px" width="100px">
+                                <p>Naatu Naatu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2739915bf0fe7b5131e3537f06b', 'Dandakadiyal');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2739915bf0fe7b5131e3537f06b" height="100px" width="100px">
+                                <p>Dandakadiyal</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://fullhdstatus.com/wp-content/uploads/2022/04/bullettu-bandi-song-status-video.jpg', 'Bullettu Bandi');">
+                                <img src="https://fullhdstatus.com/wp-content/uploads/2022/04/bullettu-bandi-song-status-video.jpg" height="100px" width="100px">
+                                <p>Bullettu Bandi</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://cdn.tollywood.net/wp-content/uploads/2019/09/Gaddalakonda-Ganesh.jpg', 'Jarra Jarra');">
+                                <img src="https://cdn.tollywood.net/wp-content/uploads/2019/09/Gaddalakonda-Ganesh.jpg" height="100px" width="100px">
+                                <p>Jarra Jarra.</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2737baf9cc8ad21a690f037e7c6', 'Aakalesthe');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2737baf9cc8ad21a690f037e7c6" height="100px" width="100px">
+                                <p>Aakalesthe</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://naasongs.com.co/wp-content/uploads/2018/11/Bumper-Offer-2009jpeg.jpg', 'Ravanamma');">
+                                <img src="https://naasongs.com.co/wp-content/uploads/2018/11/Bumper-Offer-2009jpeg.jpg" height="100px" width="100px">
+                                <p>Ravanamma</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273d744505327de850d7569151f', 'Rowdy Baby');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273d744505327de850d7569151f" height="100px" width="100px">
+                                <p>Rowdy Baby</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="hindi-top10" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Bollywood Top-10</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/723/Agar-Tum-Saath-Ho-From-Tamasha--English-2019-20200106215945-500x500.jpg', 'Agar Tum Saath Ho');">
+                                <img src="https://c.saavncdn.com/723/Agar-Tum-Saath-Ho-From-Tamasha--English-2019-20200106215945-500x500.jpg">
+                                <p>Agar Tum Saath Ho</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/222/Raataan-Lambiyan-From-Shershaah--Hindi-2021-20210729181107-500x500.jpg', 'Raataan Lambiyan');">
+                                <img src="https://c.saavncdn.com/222/Raataan-Lambiyan-From-Shershaah--Hindi-2021-20210729181107-500x500.jpg">
+                                <p>Raataan Lambiyan</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/172/Shayad-Film-Version-From-Love-Aaj-Kal--Hindi-2021-20210325204139-500x500.jpg', 'Shayad');">
+                                <img src="https://c.saavncdn.com/172/Shayad-Film-Version-From-Love-Aaj-Kal--Hindi-2021-20210325204139-500x500.jpg">
+                                <p>Shayad</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/33/03/f2/3303f270-fce2-293a-5bfc-4b9de994abf9/197188946401.jpg/1200x1200bf-60.jpg', 'Tere Vaaste');">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/33/03/f2/3303f270-fce2-293a-5bfc-4b9de994abf9/197188946401.jpg/1200x1200bf-60.jpg">
+                                <p>Tere Vaaste</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://feeds.abplive.com/onecms/images/uploaded-images/2022/07/17/23a74332dc133d8e7be1b77caf5925b31658040625_original.jpg', 'Kesariya');">
+                                <img src="https://feeds.abplive.com/onecms/images/uploaded-images/2022/07/17/23a74332dc133d8e7be1b77caf5925b31658040625_original.jpg">
+                                <p>Kesariya</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/TbkJ5HhFXdg/maxresdefault.jpg', 'Duniyaa');">
+                                <img src="https://i.ytimg.com/vi/TbkJ5HhFXdg/maxresdefault.jpg">
+                                <p>Duniyaa</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b27309426d9ae9d8d981735ebc5e', 'Ranjha');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b27309426d9ae9d8d981735ebc5e">
+                                <p>Ranjha</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/026/Chaleya-From-Jawan-Hindi-2023-20230814014337-500x500.jpg', 'Chaleya');">
+                                <img src="https://c.saavncdn.com/026/Chaleya-From-Jawan-Hindi-2023-20230814014337-500x500.jpg">
+                                <p>Chaleya</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-000561022920-w2vh6b-t500x500.jpg', 'Bekhayali');">
+                                <img src="https://i1.sndcdn.com/artworks-000561022920-w2vh6b-t500x500.jpg">
+                                <p>Bekhayali</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/023/Raabta-Hindi-2017-500x500.jpg', 'Ik Vaari Aa');">
+                                <img src="https://c.saavncdn.com/023/Raabta-Hindi-2017-500x500.jpg">
+                                <p>Ik Vaari Aa</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="hindi-melodies" class="main hidden mt-5 long-content">
+                        <div class="subhead flex justify-center"><h3>Bollywood Melodies</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/172/Shayad-Film-Version-From-Love-Aaj-Kal--Hindi-2021-20210325204139-500x500.jpg', 'Shayad');">
+                                <img src="https://c.saavncdn.com/172/Shayad-Film-Version-From-Love-Aaj-Kal--Hindi-2021-20210325204139-500x500.jpg">
+                                <p>Shayad</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/723/Agar-Tum-Saath-Ho-From-Tamasha--English-2019-20200106215945-500x500.jpg', 'Agar Tum Saath Ho');">
+                                <img src="https://c.saavncdn.com/723/Agar-Tum-Saath-Ho-From-Tamasha--English-2019-20200106215945-500x500.jpg">
+                                <p>Agar Tum Saath Ho</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://m.media-amazon.com/images/M/MV5BN2MzYWI2OGQtNzgxNi00ZjNiLWI1NTQtZWUyNWNiZDEyODFmXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg', 'Raanjhanaa');">
+                                <img src="https://m.media-amazon.com/images/M/MV5BN2MzYWI2OGQtNzgxNi00ZjNiLWI1NTQtZWUyNWNiZDEyODFmXkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_.jpg">
+                                <p>Raanjhanaa</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/222/Raataan-Lambiyan-From-Shershaah--Hindi-2021-20210729181107-500x500.jpg', 'Raataan Lambiyan');">
+                                <img src="https://c.saavncdn.com/222/Raataan-Lambiyan-From-Shershaah--Hindi-2021-20210729181107-500x500.jpg">
+                                <p>Raataan Lambiyan</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://m.media-amazon.com/images/M/MV5BMTIxMmMyM2MtMjQ1MC00ZDg4LTg2MDMtODRkODM1YzE1NmJkXkEyXkFqcGdeQXVyODAzNzAwOTU@._V1_.jpg', 'Vaaste');">
+                                <img src="https://m.media-amazon.com/images/M/MV5BMTIxMmMyM2MtMjQ1MC00ZDg4LTg2MDMtODRkODM1YzE1NmJkXkEyXkFqcGdeQXVyODAzNzAwOTU@._V1_.jpg">
+                                <p>Vaaste</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b27309426d9ae9d8d981735ebc5e', 'Ranjha');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b27309426d9ae9d8d981735ebc5e">
+                                <p>Ranjha</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/693/Tum-Hi-Ho-From-Aashiqui-2--English-2019-20200106215945-500x500.jpg', 'Tum Hi Ho');">
+                                <img src="https://c.saavncdn.com/693/Tum-Hi-Ho-From-Aashiqui-2--English-2019-20200106215945-500x500.jpg">
+                                <p>Tum Hi Ho</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://m.media-amazon.com/images/M/MV5BN2Y0YjJkMTctNjNmMC00MDkyLTkzZDktMWZmNTdmN2YyNWNmXkEyXkFqcGdeQXVyMTA5NzIyMDY5._V1_.jpg', 'Khairiyat');">
+                                <img src="https://m.media-amazon.com/images/M/MV5BN2Y0YjJkMTctNjNmMC00MDkyLTkzZDktMWZmNTdmN2YyNWNmXkEyXkFqcGdeQXVyMTA5NzIyMDY5._V1_.jpg">
+                                <p>Khairiyat</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-000561022920-w2vh6b-t500x500.jpg', 'Bekhayali');">
+                                <img src="https://i1.sndcdn.com/artworks-000561022920-w2vh6b-t500x500.jpg">
+                                <p>Bekhayali</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://cdn.123telugu.com/content/wp-content/uploads/2020/06/Dil-Bechre.jpg', 'Main Tumhara');">
+                                <img src="https://cdn.123telugu.com/content/wp-content/uploads/2020/06/Dil-Bechre.jpg">
+                                <p>Main Tumhara</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tamil-top10" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Kollywood Top-10</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273cb75ed4870b628930f4ecd01', 'Thangamey');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273cb75ed4870b628930f4ecd01">
+                                <p>Thangamey</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2737cd6344c6fca36bea03bb6b9', 'Nenjukkul Peidhidum');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2737cd6344c6fca36bea03bb6b9">
+                                <p>Nenjukkul Peidhidum</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://tvwish.com/img/program/40467.jpg', 'Devathaiya Kandein');">
+                                <img src="https://tvwish.com/img/program/40467.jpg">
+                                <p>Devathaiya Kandein</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/386/Naa-Ready-From-Leo-Tamil-2023-20230622174435-500x500.jpg', 'Naa Ready');">
+                                <img src="https://c.saavncdn.com/386/Naa-Ready-From-Leo-Tamil-2023-20230622174435-500x500.jpg">
+                                <p>Naa Ready</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/DsjRNPrvq6U/maxresdefault.jpg', 'Hukum');">
+                                <img src="https://i.ytimg.com/vi/DsjRNPrvq6U/maxresdefault.jpg">
+                                <p>Hukum</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/033/Hayyoda-From-Jawan-Tamil-2023-20230814014351-500x500.jpg', 'Hayyoda');">
+                                <img src="https://c.saavncdn.com/033/Hayyoda-From-Jawan-Tamil-2023-20230814014351-500x500.jpg">
+                                <p>Hayyoda</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/o-9JvxT1CBY/maxresdefault.jpg', 'Naan Gaali');">
+                                <img src="https://i.ytimg.com/vi/o-9JvxT1CBY/maxresdefault.jpg">
+                                <p>Naan Gaali</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://static.toiimg.com/thumb/61299397.cms?width=170&height=240&imgsize=106455', 'Sirikkadhey');">
+                                <img src="https://static.toiimg.com/thumb/61299397.cms?width=170&height=240&imgsize=106455">
+                                <p>Sirikkadhey</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/649/So-Baby-From-Doctor--Tamil-2021-20210225151221-500x500.jpg', 'So Baby');">
+                                <img src="https://c.saavncdn.com/649/So-Baby-From-Doctor--Tamil-2021-20210225151221-500x500.jpg">
+                                <p>So Baby</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://upload.wikimedia.org/wikipedia/en/2/26/Kutti_Story.jpg', 'Kutti Story');">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/2/26/Kutti_Story.jpg">
+                                <p>Kutti Story</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tamil-melodies" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Kollywood Melodies</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273dab04a069439d077d96afd3f', 'Kaadhal Sadugudu');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273dab04a069439d077d96afd3f">
+                                <p>Kaadhal Sadugudu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://tvwish.com/img/program/40467.jpg', 'Devathaiya Kandein');">
+                                <img src="https://tvwish.com/img/program/40467.jpg">
+                                <p>Devathaiya Kandein</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b0/20/10/b02010ff-9a1f-6ad4-28d7-b31fa2d12d1e/197188652357.jpg/1200x1200bf-60.jpg', 'Vaseegara');">
+                                <img src="https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/b0/20/10/b02010ff-9a1f-6ad4-28d7-b31fa2d12d1e/197188652357.jpg/1200x1200bf-60.jpg">
+                                <p>Vaseegara</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/g4w3vwrWjJ/4w3vo8drWj/size_l.jpg', 'Kannalane');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/g4w3vwrWjJ/4w3vo8drWj/size_l.jpg">
+                                <p>Kannalane</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/Fnc0oPSVu4w/hqdefault.jpg', 'Enna Vilai');">
+                                <img src="https://i.ytimg.com/vi/Fnc0oPSVu4w/hqdefault.jpg">
+                                <p>Enna Vilai</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2737cd6344c6fca36bea03bb6b9', 'Nenjukkul Peidhidum');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2737cd6344c6fca36bea03bb6b9">
+                                <p>Nenjukkul Peidhidum</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://images.hungama.com/c/1/1cc/992/47604186/47604186_300x300.jpg', 'Mukkala Mukkabla');">
+                                <img src="https://images.hungama.com/c/1/1cc/992/47604186/47604186_300x300.jpg">
+                                <p>Mukkala Mukkabla</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://static.toiimg.com/thumb/61299397.cms?width=170&height=240&imgsize=106455', 'Sirikkadhey');">
+                                <img src="https://static.toiimg.com/thumb/61299397.cms?width=170&height=240&imgsize=106455">
+                                <p>Sirikkadhey</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c-cl.cdn.smule.com/smule-gg-s-sf-bck1/arr/6a/9c/129905b6-0a9f-4553-bd52-704c5a8f9e4a.jpg', 'Vennilavae');">
+                                <img src="https://c-cl.cdn.smule.com/smule-gg-s-sf-bck1/arr/6a/9c/129905b6-0a9f-4553-bd52-704c5a8f9e4a.jpg">
+                                <p>Vennilavae</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c-cl.cdn.smule.com/rs-s39/arr/5f/cb/d271590d-817b-48fd-837e-f1d049a828fd_1024.jpg', 'Nee Partha Vizhigal');">
+                                <img src="https://c-cl.cdn.smule.com/rs-s39/arr/5f/cb/d271590d-817b-48fd-837e-f1d049a828fd_1024.jpg">
+                                <p>Nee Partha Vizhigal</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="malayalam-top10" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Mollywood Top-10</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-000050238662-sy2s89-t500x500.jpg', 'Nenjodu Cherthu');">
+                                <img src="https://i1.sndcdn.com/artworks-000050238662-sy2s89-t500x500.jpg">
+                                <p>Nenjodu Cherthu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/216/Parayuvaan-From-Ishq-Malayalam-2019-20220506213913-500x500.jpg', 'Parayuvaan');">
+                                <img src="https://c.saavncdn.com/216/Parayuvaan-From-Ishq-Malayalam-2019-20220506213913-500x500.jpg">
+                                <p>Parayuvaan</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://1.bp.blogspot.com/-XeZwdM2LWXI/XYRM-oU3hfI/AAAAAAAAEOQ/UI2hZ9OMmXQQEb1Sv4Pe6UwvfzGYMrAIgCLcBGAsYHQ/s640/Screen%2BShot%2B2019-09-19%2Bat%2B11.48.08%2BPM.png', 'Uyiril Thodum');">
+                                <img src="https://1.bp.blogspot.com/-XeZwdM2LWXI/XYRM-oU3hfI/AAAAAAAAEOQ/UI2hZ9OMmXQQEb1Sv4Pe6UwvfzGYMrAIgCLcBGAsYHQ/s640/Screen%2BShot%2B2019-09-19%2Bat%2B11.48.08%2BPM.png">
+                                <p>Uyiril Thodum</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-uXDm3gofkbqUcdoO-l400aA-t500x500.jpg', 'Jeevamshamayi');">
+                                <img src="https://i1.sndcdn.com/artworks-uXDm3gofkbqUcdoO-l400aA-t500x500.jpg">
+                                <p>Jeevamshamayi</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2731590775ddd9a0a2b9a87dc6a', 'Mizhiyil');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2731590775ddd9a0a2b9a87dc6a">
+                                <p>Mizhiyil</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://3.bp.blogspot.com/-KhFJRJLNXTo/WgWXXjfGyYI/AAAAAAAABtU/io3lvPv2QXocJ9z4HNVugnO0aBkemJgIgCLcBGAs/s1600/Ayalum%2BNjanum%2BThammil%2B1.jpg', 'Azhalinte Azhangalil');">
+                                <img src="https://3.bp.blogspot.com/-KhFJRJLNXTo/WgWXXjfGyYI/AAAAAAAABtU/io3lvPv2QXocJ9z4HNVugnO0aBkemJgIgCLcBGAs/s1600/Ayalum%2BNjanum%2BThammil%2B1.jpg">
+                                <p>Azhalinte Azhangalil</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://1.bp.blogspot.com/-1NObqAMyRYk/UYQWPK585iI/AAAAAAAAKFg/hyCxfEfiF5k/s1600/Neram-Malayalam-Movie-2.jpg', 'Vaathil Melle');">
+                                <img src="https://1.bp.blogspot.com/-1NObqAMyRYk/UYQWPK585iI/AAAAAAAAKFg/hyCxfEfiF5k/s1600/Neram-Malayalam-Movie-2.jpg">
+                                <p>Vaathil Melle</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/276/Charlie-Malayalam-2015-500x500.jpg', 'Oru Kari Mukilinu');">
+                                <img src="https://c.saavncdn.com/276/Charlie-Malayalam-2015-500x500.jpg">
+                                <p>Oru Kari Mukilinu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2731061ccce5737435c993a7aeb', 'Pavizha Mazha');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2731061ccce5737435c993a7aeb">
+                                <p>Pavizha Mazha</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2735fc89c2777ac178e4b2b30c0', 'Thumbi Penne');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2735fc89c2777ac178e4b2b30c0">
+                                <p>Thumbi Penne</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="malayalam-melodies" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Mollywood Melodies</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://dns2.pendusaab.com/thumb/32231731.jpg', 'Pottu Thotta Pournami');">
+                                <img src="https://dns2.pendusaab.com/thumb/32231731.jpg">
+                                <p>Pottu Thotta Pournami</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i1.sndcdn.com/artworks-000080226409-jzvar6-t500x500.jpg', 'Vathilil');">
+                                <img src="https://i1.sndcdn.com/artworks-000080226409-jzvar6-t500x500.jpg">
+                                <p>Vathilil</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/VdNW0JMKo5/dNW0oBeX3o/size_m_1547120934.webp', 'Etho Mazhayil');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/VdNW0JMKo5/dNW0oBeX3o/size_m_1547120934.webp">
+                                <p>Etho Mazhayil</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/176/Bangalore-Days-Malayalam-2014-500x500.jpg', 'Aethu Kari Raavilum');">
+                                <img src="https://c.saavncdn.com/176/Bangalore-Days-Malayalam-2014-500x500.jpg">
+                                <p>Aethu Kari Raavilum</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/01A3mrWNQX/1A3mkMe9bN/size_l.jpg', 'Oru Mezhuthiriyude');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/01A3mrWNQX/1A3mkMe9bN/size_l.jpg">
+                                <p>Oru Mezhuthiriyude</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://1.bp.blogspot.com/-LTGF-cw_GII/Xl5_sUJfbFI/AAAAAAAAN50/4qlb-bmB5Ikz2S2-XvSySUaKuvOZWdCIgCLcBGAsYHQ/s1600/MV5BOTUwYzQxMzAtZTE3OS00MzY3LWIwYTAtOTkxMjE0YjE5NWRmXkEyXkFqcGdeQXVyMjkxNzQ1NDI%2540._V1_.jpg', 'Nilamalare');">
+                                <img src="https://1.bp.blogspot.com/-LTGF-cw_GII/Xl5_sUJfbFI/AAAAAAAAN50/4qlb-bmB5Ikz2S2-XvSySUaKuvOZWdCIgCLcBGAsYHQ/s1600/MV5BOTUwYzQxMzAtZTE3OS00MzY3LWIwYTAtOTkxMjE0YjE5NWRmXkEyXkFqcGdeQXVyMjkxNzQ1NDI%2540._V1_.jpg">
+                                <p>Nilamalare</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273c1ba6eb7436d9b3cf7c13f51', 'Junile Nilamazhayil');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273c1ba6eb7436d9b3cf7c13f51">
+                                <p>Junile Nilamazhayil</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b27339c001ef65d33f5542be7e87', 'Puthiyoru Pathayil');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b27339c001ef65d33f5542be7e87">
+                                <p>Puthiyoru Pathayil</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/034/Madhu-Pole-From-Dear-Comrade--Malayalam-2019-20190515024600-500x500.jpg', 'Madhu Pole');">
+                                <img src="https://c.saavncdn.com/034/Madhu-Pole-From-Dear-Comrade--Malayalam-2019-20190515024600-500x500.jpg">
+                                <p>Madhu Pole</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/7rVW1Rbk56/rVW1EDP5Wk/size_l.jpg', 'Kattu Mooliyo');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/7rVW1Rbk56/rVW1EDP5Wk/size_l.jpg">
+                                <p>Kattu Mooliyo</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="english-top10" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>English Top-10</h3></div>
+                        <div class="container">
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96', 'Perfect');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273ba5db46f4b838ef6027e6f96">
+                                <p>Perfect</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://images.genius.com/ba97b67b90a2757a4d3aca5cb8b75d61.1000x1000x1.jpg', 'Wanna Be Yours');">
+                                <img src="https://images.genius.com/ba97b67b90a2757a4d3aca5cb8b75d61.1000x1000x1.jpg">
+                                <p>Wanna Be Yours</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://upload.wikimedia.org/wikipedia/en/d/d1/One_Direction_-_Night_Changes_Single_Cover.png', 'Night Changes');">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/d/d1/One_Direction_-_Night_Changes_Single_Cover.png">
+                                <p>Night Changes</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.rollingstone.com/wp-content/uploads/2020/02/THE-WEEKND-by-Duncan-Loudon.jpg?w=1600&h=900&crop=1', 'Blinding Lights');">
+                                <img src="https://www.rollingstone.com/wp-content/uploads/2020/02/THE-WEEKND-by-Duncan-Loudon.jpg?w=1600&h=900&crop=1">
+                                <p>Blinding Lights</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/The_Kid_Laroi_and_Justin_Bieber_-_Stay.png/220px-The_Kid_Laroi_and_Justin_Bieber_-_Stay.png', 'Stay');">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/thumb/0/0c/The_Kid_Laroi_and_Justin_Bieber_-_Stay.png/220px-The_Kid_Laroi_and_Justin_Bieber_-_Stay.png">
+                                <p>Stay</p>
+                                <button class="rounded" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273bd26ede1ae69327010d49946', 'Levitating');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273bd26ede1ae69327010d49946">
+                                <p>Levitating</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.rollingstone.com/wp-content/uploads/2020/02/THE-WEEKND-by-Duncan-Loudon.jpg?w=1600&h=900&crop=1g', 'Popular');">
+                                <img src="https://www.rollingstone.com/wp-content/uploads/2020/02/THE-WEEKND-by-Duncan-Loudon.jpg?w=1600&h=900&crop=1g">
+                                <p>Popular</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273726d48d93d02e1271774f023', 'Mockingbird');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273726d48d93d02e1271774f023">
+                                <p>Mockingbird</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.rollingstone.com/wp-content/uploads/2020/02/THE-WEEKND-by-Duncan-Loudon.jpg?w=1600&h=900&crop=1', 'Starboy');">
+                                <img src="https://www.rollingstone.com/wp-content/uploads/2020/02/THE-WEEKND-by-Duncan-Loudon.jpg?w=1600&h=900&crop=1">
+                                <p>Starboy</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273b46f74097655d7f353caab14', 'As It Was');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273b46f74097655d7f353caab14">
+                                <p>As It Was</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                <div class="artistsmain flex justify-center head" id="art"><h2>Artists</h2></div>
+                    <div class="main artists flex justify-around mt-5 div">
+                        <div class="flex flex-col justify-center items-center artistbox" onclick="showArtistContent('spbsongs')">
+                            <div class="artist1 artist">
+                            </div><br>
+                            <p>S.P.Balu</p>
+                        </div>
+                        <div class="flex flex-col justify-center items-center artistbox" onclick="showArtistContent('arsongs')">
+                            <div class="artists2 artist">
+                            </div><br>
+                            <p>AR.Rahman</p>
+                        </div>
+                        <div class="flex flex-col items-center justify-center artistbox" onclick="showArtistContent('anisongs')">
+                            <div class="artist3 artist">
+                            </div><br>
+                            <p>Anirudh</p>
+                        </div>
+                        <div class="flex flex-col items-center justify-center artistbox" onclick="showArtistContent('anuragsongs')">
+                            <div class="artist4 artist">
+                            </div><br>
+                            <p>Anurag</p>
+                        </div>
+                        <div class="flex flex-col justify-center items-center artistbox" onclick="showArtistContent('dspsongs')">
+                            <div class="artist5 artist">
+                            </div><br>
+                            <p>D.S.P</p>
+                        </div>
+                    </div>
+                    <div id="spbsongs" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>S.P.Balasubrahmanyam songs</h3></div>
+                        <div class="container2">
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273de3cefa121275090f514f4a1', 'Jabilli Kosam');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273de3cefa121275090f514f4a1" height="100px" width="100px">
+                                <p>Jabilli Kosam</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/JD2KJyAbOL/D2KJwBNA3O/size_l.jpg', 'Balapam Patti');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/JD2KJyAbOL/D2KJwBNA3O/size_l.jpg" height="100px" width="100px">
+                                <p>Balapam Patti</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/09g_7xDjMGI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA3VkP66KZhUvLbqkI-bSpI1lguEA', 'Aunty Koothura');">
+                                <img src="https://i.ytimg.com/vi/09g_7xDjMGI/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLA3VkP66KZhUvLbqkI-bSpI1lguEA" height="100px" width="100px">
+                                <p>Aunty Koothura</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.ytimg.com/vi/bxRccrhg7Lw/maxresdefault.jpg', 'Sundari Nuvve');">
+                                <img src="https://i.ytimg.com/vi/bxRccrhg7Lw/maxresdefault.jpg" height="100px" width="100px">
+                                <p>Sundari Nuvve</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://upload.wikimedia.org/wikipedia/en/a/ab/Aadavari_Matalaku_Arthale_Verule.jpg', 'Allantha Doorala');">
+                                <img src="https://upload.wikimedia.org/wikipedia/en/a/ab/Aadavari_Matalaku_Arthale_Verule.jpg" height="100px" width="100px">
+                                <p>Allantha Doorala</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="arsongs" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>A.R.Rahman Songs</h3></div>
+                        <div class="container2">
+                            <div class="song" onclick="addImageToNavbar('https://s.saregama.tech/image/c/fw_485/3/80/7a/20156_1484720866.jpg', 'Yemi Cheyamanduve');">
+                                <img src="https://s.saregama.tech/image/c/fw_485/3/80/7a/20156_1484720866.jpg" height="100px" width="100px">
+                                <p>Yemi Cheyamanduve</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273006e0d5d5a2335fc53b29101', 'Nuvvunte Naa Jathagaa');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273006e0d5d5a2335fc53b29101" height="100px" width="100px">
+                                <p>Nuvvunte Naa Jathagaa</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.filmibeat.com/img/190x100x237/popcorn/movie_posters/sakhi-5239.jpg', 'Kailove Chedugudu');">
+                                <img src="https://www.filmibeat.com/img/190x100x237/popcorn/movie_posters/sakhi-5239.jpg" height="100px" width="100px">
+                                <p>Kailove Chedugudu</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/images/albums/38/281138/crop_480x480_281138.jpg', 'Preminche Premava');">
+                                <img src="https://a10.gaanacdn.com/images/albums/38/281138/crop_480x480_281138.jpg" height="100px" width="100px">
+                                <p>Preminche Premava</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c-cl.cdn.smule.com/rs-s37/arr/fc/67/aff58a68-5e4d-424a-a8fa-4d863dd4d33f.jpg', 'Pachchadanamey');">
+                                <img src="https://c-cl.cdn.smule.com/rs-s37/arr/fc/67/aff58a68-5e4d-424a-a8fa-4d863dd4d33f.jpg" height="100px" width="100px">
+                                <p>Pachchadanamey</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="anisongs" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Anirudh Songs</h3></div>
+                        <div class="container2">
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/282/The-Karma-Theme-From-U-Turn--Tamil-2018-20180903145222-500x500.jpg', 'The Karma Theme');">
+                                <img src="https://c.saavncdn.com/282/The-Karma-Theme-From-U-Turn--Tamil-2018-20180903145222-500x500.jpg" height="100px" width="100px">
+                                <p>The Karma Theme</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/385/Agnyaathavaasi-Telugu-2017-20180102061403-500x500.jpg', 'Gaali Vaaluga');">
+                                <img src="https://c.saavncdn.com/385/Agnyaathavaasi-Telugu-2017-20180102061403-500x500.jpg" height="100px" width="100px">
+                                <p>Gaali Vaaluga</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/318/Hoyna-Hoyna-From-Gang-Leader--Telugu-2019-20190816063857-500x500.jpg', 'Hoyna Hoyna');">
+                                <img src="https://c.saavncdn.com/318/Hoyna-Hoyna-From-Gang-Leader--Telugu-2019-20190816063857-500x500.jpg" height="100px" width="100px">
+                                <p>Hoyna Hoyna</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/209/Megham-Karigena-From-Thiru-Telugu-2022-20220824131529-500x500.jpg', 'Megham Karigena');">
+                                <img src="https://c.saavncdn.com/209/Megham-Karigena-From-Thiru-Telugu-2022-20220824131529-500x500.jpg" height="100px" width="100px">
+                                <p>Megham Karigena</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://a10.gaanacdn.com/gn_img/albums/YoEWlabzXB/oEWlz00QKz/size_l.jpg', 'Ori Devuda');">
+                                <img src="https://a10.gaanacdn.com/gn_img/albums/YoEWlabzXB/oEWlz00QKz/size_l.jpg" height="100px" width="100px">
+                                <p>Ori Devuda</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="anuragsongs" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Anurag Songs</h3></div>
+                        <div class="container2">
+                            <div class="song" onclick="addImageToNavbar('https://naasongs.to/wp-content/uploads/2020/09/Colour-Photo-2020-Arere-Aakasham.jpg', 'Arere Aakasham');">
+                                <img src="https://naasongs.to/wp-content/uploads/2020/09/Colour-Photo-2020-Arere-Aakasham.jpg" height="100px" width="100px">
+                                <p>Arere Aakasham</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.cinejosh.com/newsimg/newsmainimg/rise-of-shyam-from-shyam-sinhga-roy-makes-a-powerful-impact_b_0611211127.jpg', 'Rise of Shyam');">
+                                <img src="https://www.cinejosh.com/newsimg/newsmainimg/rise-of-shyam-from-shyam-sinhga-roy-makes-a-powerful-impact_b_0611211127.jpg" height="100px" width="100px">
+                                <p>Rise of Shyam</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/700/Gagana-Veedhilo-From-Valmiki--Telugu-2019-20190905101556-500x500.jpg', 'Gagana Veedhilo');">
+                                <img src="https://c.saavncdn.com/700/Gagana-Veedhilo-From-Valmiki--Telugu-2019-20190905101556-500x500.jpg" height="100px" width="100px">
+                                <p>Gagana Veedhilo</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/800/Kanne-Kanne-From-Arjun-Suravaram--Telugu-2019-20190312104001-500x500.jpg', 'Kanne Kanne');">
+                                <img src="https://c.saavncdn.com/800/Kanne-Kanne-From-Arjun-Suravaram--Telugu-2019-20190312104001-500x500.jpg" height="100px" width="100px">
+                                <p>Kanne Kanne</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://www.cinejosh.com/newsimg/newsmainimg/kanunna-kalyanam-from-sita-ramam-released_b_1807220728.jpg', 'Kaanunna Kalyanam');">
+                                <img src="https://www.cinejosh.com/newsimg/newsmainimg/kanunna-kalyanam-from-sita-ramam-released_b_1807220728.jpg" height="100px" width="100px">
+                                <p>Kaanunna Kalyanam</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="dspsongs" class="main hidden mt-5 lang-content">
+                        <div class="subhead flex justify-center"><h3>Devi Sri Prasad Songs</h3></div>
+                        <div class="container2">
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/903/Jalsa-2008-500x500.jpg', 'My Heart Is Beating');">
+                                <img src="https://c.saavncdn.com/903/Jalsa-2008-500x500.jpg" height="100px" width="100px">
+                                <p>My Heart Is Beating</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b2737aaa4a05bc495ad3bae7c9fd', 'Niluvaddham');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b2737aaa4a05bc495ad3bae7c9fd" height="100px" width="100px">
+                                <p>Niluvaddham</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/571/S-O-Satyamurthy-Telugu-2015-500x500.jpg', 'Chal Chalo Chalo');">
+                                <img src="https://c.saavncdn.com/571/S-O-Satyamurthy-Telugu-2015-500x500.jpg" height="100px" width="100px">
+                                <p>Chal Chalo Chalo</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://c.saavncdn.com/464/Attarrintiki-Daaredi-Telugu-2013-500x500.jpg', 'Aaradugula Bullet');">
+                                <img src="https://c.saavncdn.com/464/Attarrintiki-Daaredi-Telugu-2013-500x500.jpg" height="100px" width="100px">
+                                <p>Aaradugula Bullet</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                            <div class="song" onclick="addImageToNavbar('https://i.scdn.co/image/ab67616d0000b273ae015832f67d72c805ee9d3f', 'Appudo Ippudo');">
+                                <img src="https://i.scdn.co/image/ab67616d0000b273ae015832f67d72c805ee9d3f" height="100px" width="100px">
+                                <p>Appudo Ippudo</p>
+                                <button class="rounded w-0" id="play"><span class="material-symbols-outlined">play_arrow</span></button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="musicbar" class="main hidden sticky">
+                        <div class="musicbarmain flex" >
+                            <div class="flex gap-5">
+                                <div class="sinfo musicbar"></div>
+                                <div class="sname"></div>
+                                <div class="flex items-center">
+                                    <i class="fa-regular fa-heart" id="likeIcon" style="color: #000000;"></i>
+                                    <i class="fa-solid fa-heart" id="unlikeIcon" style="color: #fc0303; display: none;"></i>
+                                </div>  
+                            </div>
+                            <div class="controls rounded p-4">
+                                <div class="controlbuttons">
+                                    <i class="fas fa-random shuffle"></i>
+                                    <i class="fas fa-backward"></i>
+                                    <i class="fas fa-play" style="display: none;"></i> 
+                                    <i class="fas fa-pause pause"></i>
+                                    <i class="fas fa-forward"></i> 
+                                    <i class="fas fa-redo"></i> 
+                                </div>
+                                <div class="progress-bar">
+                                    <span id="currentTime">0:00</span>
+                                    <input type="range" min="0" max="100" step="1" value="0" id="progress">
+                                    <span id="duration">0:00</span>
+                                </div>
+                            </div>
+                            <div class="volume-slider">
+                                <i class="fas fa-volume-down" id="voldown"></i>
+                                <input type="range" min="0" max="100" step="1" value="50" id="volume">
+                                <i class="fas fa-volume-up" id="volup"></i>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </div>
+        <footer class="footer ml-52" id="footer">
+            <div class="footer1">
+                
+                    <div class="footer-column">
+                        <div class="footer-heading"><u>Company</u></div>
+                        <ul class="footer-list">
+                            <li>About</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <div class="footer-heading"><u>Communities</u></div>
+                        <ul class="footer-list">
+                            <li>Developers</li>
+                            <li>Advertising</li>
+                            <li>Investors</li>
+                            <li>Vendors</li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <div class="footer-heading"><u>Useful Links</u></div>
+                        <ul class="footer-list">
+                            <li>Support</li>
+                            <li>Subscription</li>
+                            <li>Mobile App</li>
+                        </ul>
+                    </div>
+                </div>
+                
+            <div class="social-icons-container">
+                <div class="social-icons">
+                    <img src="https://cdn-icons-png.flaticon.com/128/174/174855.png" alt="Instagram">
+                    <img src="https://cdn-icons-png.flaticon.com/128/733/733547.png" alt="Facebook">
+                    <img src="https://cdn-icons-png.flaticon.com/128/3256/3256013.png" alt="Twitter">
+                </div>
+            </div>
+        </footer>
+        <script>
+            
+            var likedSongs = JSON.parse(localStorage.getItem('likedSongs')) || [];
+            console.log(likedSongs);
+
+            document.addEventListener('DOMContentLoaded', () => {
+                likedSongs.forEach(item => {
+                        console.log(item);
+                        updateLikeIconUI(item);
+                });
+                
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            var username = urlParams.get('username');
+            
+            const greetingDiv = document.getElementById('greeting');
+            greetingDiv.innerHTML = `Hi, ${username}`;
+
+            const homeLink = document.getElementById("homeLink");
+
+            homeLink.href = `music.html?username=${username}`;
+            var selectedOption;
+            var contentToShow;
+            var presentLanguage;
+            var presentDivision;
+            let shuffledLanguageSongs = [];
+            var searchInput = document.querySelector(".search");
+
+            searchInput.addEventListener("keydown", function (event) {
+                if (event.key === "Enter") {
+                    event.preventDefault();
+
+                    var searchedSong = searchInput.value;
+                    console.log(searchedSong);
+
+                    var capitalizedSong = capitalizeWords(searchedSong);
+                    console.log(capitalizedSong);
+
+                    getSongImage(capitalizedSong);
+                }
+            });
+
+            function capitalizeWords(inputText) {
+                const words = inputText.split(' ');
+
+                const capitalizedWords = words.map(word => {
+                    if (word.length > 0) {
+                        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
+                    } else {
+                        return word;
+                    }
+                });
+
+                const capitalizedText = capitalizedWords.join(' ');
+
+                return capitalizedText;
+            }
+
+            function getSongImage(capitalizedInput) {
+                const foundSong = songsArray.find(song => song.textContent === capitalizedInput);
+                console.log(foundSong);
+
+                if (foundSong) {
+                    addImageToNavbar(foundSong.src, foundSong.textContent);
+                    searchInput.value = '';
+                } else {
+                    return 'default-image.jpg';
+                }
+            }
+
+            var songsArray = [];
+
+            const songDivs = document.querySelectorAll('.song');
+
+            songDivs.forEach(songDiv => {
+                    const songData = {
+                        textContent: '',
+                        src: ''
+                    };
+
+                    const imgElement = songDiv.querySelector("img");
+                    const pElement = songDiv.querySelector("p");
+
+                    if (imgElement) {
+                        songData.src = imgElement.getAttribute("src");
+                    }
+
+                    if (pElement) {
+                        songData.textContent = pElement.textContent;
+                    }
+
+                songsArray.push(songData);
+            });
+            console.log(songsArray);
+
+            const languageSongs = {
+                telugu: {
+                    
+                },
+                hindi: {
+                    
+                },
+                tamil: {
+                    
+                },
+                malayalam: {
+                    
+                },
+                english: {
+                    
+                }
+            };
+
+            const artistSongs = {
+                spbsongs: [],
+                arsongs: [],
+                anisongs: [],
+                anuragsongs: [],
+                dspsongs: []
+            }
+
+            function addSelectedSongs(language, division) {
+                presentLanguage = language;
+                presentDivision = division;
+                languageSongs[language][division] = [];
+
+                shuffledLanguageSongs = [];
+
+                const selectedDivision = document.getElementById(division);
+                const songDivs = selectedDivision.querySelectorAll(".song");
+
+                songDivs.forEach(songDiv => {
+                    const songData = {
+                        textContent: '',
+                        src: ''
+                    };
+
+                    const imgElement = songDiv.querySelector("img");
+                    const pElement = songDiv.querySelector("p");
+
+                    if (imgElement) {
+                        songData.src = imgElement.getAttribute("src");
+                    }
+
+                    if (pElement) {
+                        songData.textContent = pElement.textContent;
+                    }
+
+                    languageSongs[language][division].push({ ...songData });
+                });
+
+                console.log(languageSongs);
+            }
+
+            function addSongstoArtistList(artistContentId) {
+                artistSongs[artistContentId] = [];
+
+                const artistDivision = document.getElementById(artistContentId);
+                const songDivs = artistDivision.querySelectorAll(".song");
+
+                songDivs.forEach(songDiv => {
+                    const songData = {
+                        textContent: '',
+                        src: ''
+                    };
+
+                    const imgElement = songDiv.querySelector("img");
+                    const pElement = songDiv.querySelector("p");
+
+                    if (imgElement) {
+                        songData.src = imgElement.getAttribute("src");
+                    }
+
+                    if (pElement) {
+                        songData.textContent = pElement.textContent;
+                    }
+
+                    artistSongs[artistContentId].push({ ...songData });
+                });
+                console.log(artistSongs);
+            }
+
+
+            function hideAllLanguages() {
+                var contentElements = document.querySelectorAll('.lang-content');
+                contentElements.forEach(function (content) {
+                    content.style.display = 'none';
+                });
+            }
+
+            function songdisplay(language) {
+                selectedOption = document.getElementById(language + '-songs').value;
+
+                const divs = ['telugu', 'hindi', 'tamil', 'malayalam', 'english'];
+                divs.forEach((div) => {
+                    if (div !== language) {
+                        document.getElementById(`${div}-songs`).value = 'select';
+                    }
+                });
+                
+                if (selectedOption != "hindi-melodies") {
+                    var hindiMelodies = document.getElementById('hindi-melodies');
+                        hindiMelodies.style.display = 'none';
+                }
+
+                hideAllLanguages();
+
+                contentToShow = document.getElementById(language + '-' + selectedOption);
+                if (contentToShow) {
+                    contentToShow.style.display = 'block';
+                }
+                addSelectedSongs(language, language + '-' + selectedOption);
+
+            }
+
+            function showArtistContent(artistContentId) {
+                hideAllLanguages();
+
+                contentToShow = document.getElementById(artistContentId);
+                if (contentToShow) {
+                    contentToShow.style.display = 'block';
+                }
+                addSongstoArtistList(artistContentId);
+            }
+
+            var likeBtn = document.querySelector(".fa-regular");
+            var unlikeBtn = document.querySelector(".fa-solid");
+            var audio = new Audio();
+            var playBtn = document.querySelector(".fa-play");
+            var pauseBtn = document.querySelector(".fa-pause");
+            var progress = document.getElementById("progress");
+            var currentTime = document.getElementById("currentTime");
+            var duration = document.getElementById("duration");
+            var volume = document.getElementById("volume");
+            var volumeup = document.getElementById("volup");
+            var volumedown = document.getElementById("voldown");
+            var previousBtn = document.querySelector(".fa-backward");
+            var nextBtn = document.querySelector(".fa-forward");
+            var shuffleBtn = document.querySelector(".fa-random");
+            var repeatBtn = document.querySelector(".fa-redo");
+            var currentSongName;
+            var songImage;
+            shuffleBtn.style.color = "white";
+
+            var likedSongsTrigger = document.querySelector('.liked-songs-trigger');
+            var likedSongsContainer = document.getElementById('likedSongsList');
+
+            likedSongsTrigger.addEventListener('click', async () => {
+                try {
+                    const response = await fetch(`/getLikedSongs?username=${encodeURIComponent(username)}`);
+                    const data = await response.json();
+
+                    const likedSongsArray = data.likedSongsArray;
+
+                    likedSongsContainer.innerHTML = '';
+
+                    likedSongsArray.forEach(song => {
+                        const songName = song.songName;
+                        const songImage = song.songImage;
+
+                        const songElement = document.createElement('div');
+                        songElement.textContent = "➢ " + songName;
+                        songElement.addEventListener('click', () => addImageToNavbar(songImage, songName));
+                        songElement.className = "likesong";
+                        likedSongsContainer.appendChild(songElement);
+                    });
+
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+
+
+
+            const likeClickListener = async () => {
+                likeBtn.style.display = 'none';
+                unlikeBtn.style.display = 'inline-block';
+                likedSongs.push(currentSongName);
+                localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+                try {
+                    const response = await toggleLike(username, songImage, currentSongName);
+                    console.log('Toggle like response:', response);
+                } catch (error) {
+                    console.error('Error toggling like:', error);
+                }
+            };
+
+            const unlikeClickListener = async () => {
+                likeBtn.style.display = 'inline-block';
+                unlikeBtn.style.display = 'none';
+                likedSongs = likedSongs.filter(item => item !== currentSongName);
+                localStorage.setItem('likedSongs', JSON.stringify(likedSongs));
+                try {
+                    const response = await toggleLike(username, songImage, currentSongName);
+                    console.log('Toggle like response:', response);
+                } catch (error) {
+                    console.error('Error toggling like:', error);
+                }
+            };
+
+            likeBtn.addEventListener('click', likeClickListener);
+            unlikeBtn.addEventListener('click', unlikeClickListener);
+
+            function updateLikeIconUI(songName) {
+                
+                if (likedSongs.includes(songName)) {
+                    likeBtn.style.display = 'none';
+                    unlikeBtn.style.display = 'inline-block';
+                } else {
+                    likeBtn.style.display = 'inline-block';
+                    unlikeBtn.style.display = 'none';
+                }
+            }
+
+            let currentSongIndex = 0;
+            let isShuffleMode = false;
+            let isRepeatMode = false;
+
+            function addImageToNavbar(imageSrc, songName) {
+                const bar = document.getElementById("musicbar");
+                bar.style.display = "block";
+                const bar1 = document.querySelector(".musicbar");
+                const bar2 = document.querySelector(".sname");
+
+                likeBtn.style.display = "inline-block";
+                unlikeBtn.style.display = "none";
+
+                const image = document.createElement("img");
+                image.src = imageSrc;
+                image.alt = songName;
+                image.className = "navbar-image";
+
+                bar1.innerHTML = "";
+                bar1.appendChild(image);
+
+                const name = document.createElement("p");
+                name.className = "playname";
+                name.textContent = songName;
+                bar2.innerHTML = "";
+                bar2.appendChild(name);
+
+                playSong(songName);
+                updateLikeIconUI(songName);
+                songImage = imageSrc;
+                currentSongName = songName;
+
+            }
+
+            previousBtn.addEventListener("click", () => {
+                if (isShuffleMode) {
+                    shuffleArray(shuffledLanguageSongs);
+                    currentSongIndex = shuffledLanguageSongs.findIndex(song => song.textContent === currentSongName);
+                    console.log(currentSongIndex);
+                } else {
+                    currentSongIndex = languageSongs[presentLanguage][presentDivision].findIndex(song => song.textContent === currentSongName);
+                    currentSongIndex = (currentSongIndex - 1 + languageSongs[presentLanguage][presentDivision].length) % languageSongs[presentLanguage][presentDivision].length;
+                    console.log(currentSongIndex);
+                    if (currentSongIndex < 0) {
+                        currentSongIndex = languageSongs[presentLanguage][presentDivision].length - 1;
+                        console.log(currentSongIndex);
+                    }
+                }
+                const prevSongData = languageSongs[presentLanguage][presentDivision][currentSongIndex];
+                addImageToNavbar(prevSongData.src, prevSongData.textContent);
+            });
+
+            var nextBtnClicked = false;
+
+            nextBtn.addEventListener("click", () => {
+                if (nextBtnClicked) {
+                    return;
+                }
+                nextBtnClicked = true;
+                if (isShuffleMode) {
+                    shuffleArray(shuffledLanguageSongs);
+                    currentSongIndex = shuffledLanguageSongs.findIndex(song => song.textContent === currentSongName);
+                    console.log(currentSongIndex);
+                } else {
+                    currentSongIndex = languageSongs[presentLanguage][presentDivision].findIndex(song => song.textContent === currentSongName);
+                    currentSongIndex = (currentSongIndex + 1) % languageSongs[presentLanguage][presentDivision].length;
+                    console.log(currentSongIndex);
+                    if (currentSongIndex === languageSongs[presentLanguage][presentDivision].length) {
+                        currentSongIndex = 0;
+                        console.log(currentSongIndex);
+                    }
+                }
+                const nextSongData = languageSongs[presentLanguage][presentDivision][currentSongIndex];
+                addImageToNavbar(nextSongData.src, nextSongData.textContent);
+                setTimeout(() => {
+                    nextBtnClicked = false;
+                }, 1000);
+            });
+
+            shuffleBtn.addEventListener("click", () => {
+                isShuffleMode = !isShuffleMode;
+                if (isShuffleMode) {
+                    shuffleBtn.style.color = "green";
+                    shuffleArray(languageSongs[presentLanguage][presentDivision]);
+                }
+                else {
+                    shuffleBtn.style.color = "white";
+                }
+                console.log(shuffledLanguageSongs);
+            });
+
+            playBtn.addEventListener("click", () => {
+                playBtn.style.display = "none";
+                pauseBtn.style.display = "inline-block";
+                audio.play();
+            });
+
+            pauseBtn.addEventListener("click", () => {
+                pauseBtn.style.display = "none";
+                playBtn.style.display = "inline-block";
+                audio.pause();
+            });
+            
+            repeatBtn.addEventListener("click", () => {
+                isRepeatMode = !isRepeatMode;
+                if (isRepeatMode) {
+                    repeatBtn.style.color = "green";
+                }
+                else {
+                    repeatBtn.style.color = "white";
+                }
+            });
+
+            let isAudioEnded = false;
+    
+            audio.addEventListener('timeupdate', () => {
+                if (audio.currentTime >= audio.duration - 1) {
+                    if (isRepeatMode) {
+                        playSong(currentSongName);
+                    } else {
+                        if (isShuffleMode) {
+                            shuffleArray(shuffledLanguageSongs);
+                            currentSongIndex = 0;
+                        } else {
+                            currentSongIndex = (currentSongIndex + 1) % languageSongs[presentLanguage][presentDivision].length;
+                            console.log(languageSongs[presentLanguage][presentDivision].length);
+                            console.log(currentSongIndex);
+                        }
+                        const nextSongData = languageSongs[presentLanguage][presentDivision][currentSongIndex];
+                        addImageToNavbar(nextSongData.src, nextSongData.textContent);
+                    }
+                }
+            });
+
+            volume.addEventListener("input", () => {
+                const volumeValue = volume.value / 100;
+                audio.volume = volumeValue;
+            });
+
+            volumeup.addEventListener("click", () => {
+                audio.volume = 1;
+                volume.value = 100;
+            });
+
+            volumedown.addEventListener("click", () => {
+                audio.volume = 0.1;
+                volume.value = 10;
+            });
+
+            progress.addEventListener("input", () => {
+                const seekTime = (progress.value / 100) * audio.duration;
+                audio.currentTime = seekTime;
+            });
+
+            audio.addEventListener('timeupdate', () => {
+                updateProgress(audio.currentTime, audio.duration);
+            });
+
+            audio.addEventListener('loadedmetadata', () => {
+                duration.textContent = formatTime(audio.duration);
+            });
+
+            function shuffleArray(array) {
+                shuffledLanguageSongs = [...array];
+                for (let i = shuffledLanguageSongs.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [shuffledLanguageSongs[i], shuffledLanguageSongs[j]] = [shuffledLanguageSongs[j], shuffledLanguageSongs[i]];
+                }
+                return shuffledLanguageSongs;
+            }
+
+            async function getSignedURL(songName) {
+                try {
+                    const response = await fetch(`/getSongSignedURL?songName=${encodeURIComponent(songName)}`);
+                    const signedURL = await response.text();
+                    return signedURL;
+                } catch (error) {
+                    console.error('Error fetching signed URL:', error);
+                    return null;
+                }
+            }
+
+            async function playSong(songName) {
+                const signedURL = await getSignedURL(songName);
+                
+                if (signedURL) {
+                    playBtn.style.display = "none";
+                    pauseBtn.style.display = "inline-block";
+                    audio.pause();
+
+                    audio.src = signedURL;
+                    audio.load();
+
+                    audio.addEventListener('canplaythrough', function() {
+                        audio.play();
+                    }, { once: true });
+                }
+            }
+
+            async function toggleLike(username, songImage, songName) {
+                try {
+                    const response = await fetch('/like', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({ username, songImage, songName }),
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log(data.message);
+                        return { liked: data.liked };
+                    } else {
+                        console.error('Error:', response.statusText);
+                        throw new Error('Error toggling like status');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    throw error;
+                }
+            }
+            
+            function updateProgress(currentTimeValue, durationValue) {
+                const progressPercent = (currentTimeValue / durationValue) * 100;
+                progress.value = progressPercent;
+                currentTime.textContent = formatTime(currentTimeValue);
+                duration.textContent = formatTime(durationValue);
+            }
+
+            function formatTime(timeInSeconds) {
+                const minutes = Math.floor(timeInSeconds / 60);
+                const seconds = Math.floor(timeInSeconds % 60);
+                return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+        </script>
+    </body>
+</html>

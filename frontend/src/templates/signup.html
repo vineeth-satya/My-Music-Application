@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login page</title>
+        <style>
+            body{
+                background-image: url('../../public/signupimage.jpg');
+                display: flex;
+                align-items: center;
+                background-size: cover;
+            }
+            .bg{
+                margin-left: 15%;
+                margin-top: 2%;
+            }
+            .bb{
+                display: flex;
+                flex-direction: column;
+                background-color: rgb(0, 0, 0);
+                height: max-content;
+                width: 350px;
+                justify-content: center;
+                align-items: center;
+                border-radius: 30px;
+                margin-top: 50px;
+                color: aliceblue;
+                box-shadow: 0px 0px 10px black;
+            }
+            #heading{
+                color: rgb(255, 255, 255);
+            }
+            #user, #num, #mail, #pass{
+                border-radius: 5px;
+            }
+            #user:focus{
+                background-color: rgb(255,209,61);
+            }
+            label{
+                color: rgb(255, 255, 255);
+            }
+            #button{
+                border-radius: 5px;
+                padding: 5px;
+                width: 100px;
+                color: white;
+                background-color: rgb(255,209,61);
+            }
+            #button:hover{
+                background-color: darkcyan;
+                color: aliceblue;
+                box-shadow: 0px 0px 10px gray;
+            }
+            #link{
+                color: rgb(255, 255, 255);
+            }
+            #link:hover{
+                color: rgb(255,209,61);
+            }
+            p{
+                margin-top: 0px;
+                justify-content: center;
+                text-align: center;
+                padding-left: 20px;
+                padding-right: 20px;
+                margin-bottom: 1px;
+            }
+            img{
+                width: 30px;
+                justify-content: space-around;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="bg">
+            <div class="bb">
+                <h1 id="heading">SignUp</h1>
+                <div class="flex flex-col">
+                    <form action="/signupSubmit" method="post">
+                        <label for="user">UserName</label>&nbsp;&nbsp;&nbsp;
+                        <input id="user" type="text" placeholder="Username" name="name" required autofocus checked><br><br>
+                        <label for="num">Mobile</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&hairsp;
+                        <input id="num" type="text" placeholder="Mobile Number" name="number" pattern="[0-9]{10}" required><br><br>
+                        <label for="mail">Email</label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&hairsp;
+                        <input id="mail" type="text" placeholder="Email" name="mail" required><br><br>
+                        <label for="pass">Password</label>&nbsp;&nbsp;&nbsp;&nbsp;&hairsp;
+                        <input id="pass" type="password" placeholder="Password" name="password" required><br><br><br>
+                        <center><button id="button">Signup</button></center><br>
+                    </form>
+                </div><br>
+                <p>By clicking sign up, <br>you agreed to our <b><a href="">Privacy Policy</a></b></p><br>
+                <!-- <button id="button">Signup</button><br> -->
+                <center><p><span>-------------------------</span>Or<span>-------------------------</span></p></center><br><br>
+                <div class="logos">
+                    <img src="https://i.pinimg.com/originals/60/85/3e/60853e9ce4b881dd5eaaec0b253cdcea.jpg" alt="">
+                    <img src="https://www.freeiconspng.com/thumbs/facebook-logo-png/facebook-logo-3.png" alt="">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/640px-LinkedIn_logo_initials.png" alt="">
+                </div><br>
+                <p>Already a user?<a href="/login">Login</a></p><br><br>
+                
+            </div>
+        </div>
+    </body>
+</html>

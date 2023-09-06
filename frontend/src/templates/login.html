@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login page</title>
+    <link href="../css/login.css" rel="stylesheet">
+</head>
+<body>
+    <div class="bg">
+        <div class="bb">
+            <h1 id="heading">Login</h1>
+            <div class="flex flex-col">
+                <form action="/loginSubmit" method="post">
+                    <label for="name">UserName</label>&nbsp;&nbsp;&hairsp;
+                    <input id="user" type="text" placeholder="Username" name="name"><br><br>
+                    <label for="password">Password</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input id="pass" type="password" placeholder="Password" name="password"><br><br><br>
+                    <center><button id="button">Login</button></center><br>
+                </form>
+            </div>
+            <div><input type="checkbox" id="checkbox"><label for="checkbox">Stay Signed in</label></div><br>
+            
+            <a href="/signup" id="link">Create Account</a><br>
+            <a href="" id="link">forgot password...?</a><br><br>
+        </div>
+    </div>
+</body>
+</html>

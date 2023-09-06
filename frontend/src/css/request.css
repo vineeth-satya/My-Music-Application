@@ -1,0 +1,82 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("../../public/requestbg.jpg");
+    background-size: cover;
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+.photo {
+    background-image: url("../../public/man.png");
+    background-size: cover;
+    min-height: 100vh;
+    width: 50%;
+    top: 0;
+    right: 0;
+    position: fixed;
+    z-index: -1;
+}
+
+.bg {
+    background-color: rgba(252, 231, 142, 0.9);
+    position: relative;
+    margin: auto;
+    border-radius: 10px;
+    padding: 20px;
+    width: 350px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+}
+
+#heading {
+    color: rgb(2, 2, 2);
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+label {
+    color: rgb(2, 2, 2);
+    display: block;
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+#song {
+    border: 1px solid rgb(2, 2, 2);
+    border-radius: 5px;
+    padding: 8px;
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 20px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#song:focus {
+    background-color: rgba(254, 202, 230, 0.7);
+}
+
+#button {
+    background-color: rgb(191, 242, 251);
+    color: rgb(2, 2, 2);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+#button:hover {
+    background-color: darkcyan;
+    color: white;
+}
